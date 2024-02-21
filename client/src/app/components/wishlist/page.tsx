@@ -1,11 +1,12 @@
 "use client"
 // import Nav from "../Nav";
-// import Footer from "../Footer";
+
 import { MdDelete } from "react-icons/md";
 import { FaEye } from "react-icons/fa";
 import { CiStar } from "react-icons/ci";
 import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import Footer from "../footer/page.tsx";
 import axios from "axios";
 
 const Wishlist:React.FC=()=> {
@@ -196,7 +197,7 @@ const Wishlist:React.FC=()=> {
             </div>
         </div>
         </div>
-        {/* <Footer /> */}
+        <Footer />
         </main>
     </>
     );

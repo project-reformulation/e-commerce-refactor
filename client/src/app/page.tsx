@@ -7,6 +7,8 @@ export default function Home() {
       <h1> hello</h1>
     <Link href="/components/wishlist"> click</Link>
     <Link href="/components/cart"> add</Link>
+    <Link href="/components/footer">footer</Link>
+    <Link href="/components/nav">nav</Link>
     </main>
   );
 }

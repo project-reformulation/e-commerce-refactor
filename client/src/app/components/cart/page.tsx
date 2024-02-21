@@ -1,8 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
-// import Nav from "../Aymen/Nav.jsx";
-// import Footer from "../Aymen/Footer.jsx";
-import { useParams, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Footer from "../footer/page.tsx";
+import Nav from "../nav/page.tsx";
+import { useParams } from 'react-router-dom';
+import Link from "next/link";
 import axios from "axios";
 
 const Cart = () => {
@@ -11,8 +13,7 @@ const Cart = () => {
     const [image, setImage] = useState([]);
     const [idc,setIdc]=useState(0)
     const { id } = useParams()
-    // const navigate = useNavigate();
-
+    
     useEffect(() => {
     const Data = async () => {
         try {
@@ -114,6 +115,7 @@ const Cart = () => {
 
     return (
     <>
+    <Nav/>
     <main>
     
     <div className="container mx-auto">
@@ -164,7 +166,7 @@ const Cart = () => {
             </div>
             <div className="flex justify-between items-center w-full mt-6">
             <button className="border border-black rounded px-4 py-2" onClick={()=>{
-                push(`/${id}`)
+                <Link href={`${id}`}></Link>
             }}>
                 Return To Shop
             </button>
@@ -199,21 +201,23 @@ const Cart = () => {
                 <div>Total:</div>
                 <div>${calculateTotal()}</div>
         </div>
-        <button
+
+            <button
                 className="bg-red-500 text-white rounded px-4 py-2 mt-6"
                 onClick={() => {
         upd();
-        navigate(`/${id}`)
+        <Link href={`${id}`}></Link>
                 }}
                 >
                 Proceed to Checkout
                 </button>
+
             </div>
             </div>
         </div>
         </div>
     </main>
-
+    <Footer/>
         
     </>
 );
