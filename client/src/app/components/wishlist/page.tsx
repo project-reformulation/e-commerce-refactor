@@ -1,52 +1,49 @@
 "use client"
-// import Nav from "../Nav";
-// import Footer from "../Footer";
+
+
 import { MdDelete } from "react-icons/md";
 import { FaEye } from "react-icons/fa";
 import { CiStar } from "react-icons/ci";
-import { useParams } from "react-router-dom";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import Footer from "../footer/page.tsx";
+import Nav from "../nav/page.tsx"
 import axios from "axios";
 
+interface Wish {
+    idwhislist:number;
+    user_iduser: number;
+    idproduct: number;
+}
 const Wishlist:React.FC=()=> {
-    const [product, setProduct] = useState([]);
-        const [images, setImages] = useState([]);
-    const { id } = useParams();
+
+    const [product, setProduct] = useState<any[]>([]); 
+    const [images, setImages] = useState<any[]>([]);
+    const [id, setId] = useState<number>(1);
+
+
+
     const fetchData = async () => {
-        const Data = async () => {
-            try {
-            const fs = await axios.get(`http://localhost:8000/cart/allwhis/${id}`);
-            const array =[]
-            for (const i of fs.data) {
-                const pr = await axios.get(
-                `http://localhost:8000/cart/someproduct/${i.product_idproduct}`
-                );
-                array.push(pr.data[0]);
-            }
-            setProduct(array);
-            console.log(array);
-            for (const i of array) {
-                await axios
-                .get(`http://localhost:8000/cart/image/${i.idproduct}`)
-                .then((res) => {
-                    array.push(res.data[0].imageurl);
-                })
-                .catch((err) => console.log(err));
-            }
-            setImages(array);
-            } catch (err) {
-            console.log(err);
-            }
-        };
-        Data();
-        };
+
+        try {
+        const wishlistResponse = await axios.get(
+            `http://localhost:8000/cart/allwhis/${id}`
+        );
+            console.log(wishlistResponse.data);
+            setProduct(wishlistResponse.data);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+
     useEffect(() => {
-        fetchData()
+        fetchData();
     }, []);
     return (
     <>
-<main>      
-    {/* <Nav /> */}
+<main>
+    <Nav />
         <div
         style={{ display: "flex", justifyContent: "center", marginTop: "70px" }}
         >
@@ -54,7 +51,7 @@ const Wishlist:React.FC=()=> {
             <div className="flex-col justify-start items-start gap-[60px] flex">
             <div className="justify-start items-center gap-[835px] inline-flex">
                 <div className="text-center text-black text-xl font-normal font-['Poppins'] leading-relaxed">
-                Wishlist (4)
+                Wishlist (2)
                 </div>
                 <div className="px-12 py-4 rounded border border-black border-opacity-50 justify-center items-center gap-2.5 flex">
                 <div className="text-black text-base font-medium font-['Poppins'] leading-normal">
@@ -91,7 +88,7 @@ const Wishlist:React.FC=()=> {
                     <div className="left-[83.50px] top-[217px] absolute justify-center  items-center gap-2 inline-flex">
                     <div className="w-6 h-6 relative" />
                     <div className="text-white text-xs font-normal font-['Poppins'] leading-[18px]">
-                        Add To Cart
+                    <Link href='/components/cart'>Add To Cart</Link>
                     </div>
                     </div>
                 </div>
@@ -155,7 +152,7 @@ const Wishlist:React.FC=()=> {
                     <div className="left-[85px] top-[218px] absolute justify-center  items-center gap-2 inline-flex">
                     <div className="w-6 h-6 relative" />
                     <div className="text-white text-xs font-normal font-['Poppins'] leading-[18px]">
-                        Add To Cart
+                        <Link href='/components/cart'>Add To Cart</Link>
                     </div>
                     </div>
                     <div className="w-[190px] h-[180px] px-4 py-[7px] left-[40px] top-[22px] absolute justify-center items-center inline-flex">
@@ -196,7 +193,7 @@ const Wishlist:React.FC=()=> {
             </div>
         </div>
         </div>
-        {/* <Footer /> */}
+        <Footer />
         </main>
     </>
     );
