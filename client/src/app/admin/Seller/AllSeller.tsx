@@ -1,9 +1,10 @@
 "use client"
+import 'boxicons'
 import Link from 'next/link';
 import { toast } from 'react-toastify';
 import Sidebar from '../Sidebar';
  axios 
-// import SideBar from "./SideBar";
+
 import {
     Card,
     CardHeader,
@@ -135,7 +136,7 @@ function AllSeller() {
                     <tr key={user.name}>
                       <td className={classes}>
                         <div className="flex items-center gap-3">
-                        <Avatar src={user.image} alt={user.name} style={{ width: '50px', height: '50px' }} className="rounded-full" />
+                        <Avatar src={user.image} alt="" style={{ width: '50px', height: '50px' }} className="rounded-full" />
 
                           <div className="flex flex-col">
                             <Typography

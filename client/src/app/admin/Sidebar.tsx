@@ -68,7 +68,7 @@ function Sidebar() {
                     <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                   </ListItemPrefix>
                   <button className="text-left w-full pl-1" style={{ border: 'none', background: 'none'  }} onClick={()=>{<Link href="/" ></Link>}} >
-                      User
+                 <Link  href="/admin/AllTabell"  > User</Link>    
                     </button>
                 </ListItem>
                 <ListItem>

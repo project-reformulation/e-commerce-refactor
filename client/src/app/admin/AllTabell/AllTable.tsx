@@ -1,11 +1,12 @@
-"use client "
+"use client"
 import 'boxicons'
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import SideBar from "./SideBar";
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import Sidebar from '../Sidebar';
+import { toast } from 'react-toastify';
 
 
-import { useNavigate } from "react-router-dom";
+
 import {
   Card,
   CardHeader,
@@ -25,15 +26,22 @@ import {
 import { MagnifyingGlassIcon, PencilIcon, TrashIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 
 interface User {
-    id: number;
-    name: string;
-    email: string;
-    status: string;
-    created: string;
-    // Add other relevant properties here
-  }
+  id: number;
+  name: string;
+  email: string;
+  status: string;
+  created: string;
+  // Add other relevant properties here
+}
 
-const TABS = [
+
+interface Tab {
+  label: string;
+  value: string;
+}
+
+
+const TABS: Tab[] = [
   {
     label: 'All',
     value: 'all',
@@ -47,34 +55,46 @@ const TABS = [
     value: 'seller',
   },
 ];
+
 const TABLE_HEAD: string[] = ['User', 'Email', 'Status', 'Created', '', ''];
 
 
-const AllTable: React.FC = () => {
+const AllTable = () => {
     
-    const [users, setUsers] = useState<User[]>([]);
-    const [buyer, setBuyer] = useState<User[]>([]);
-    const [seller, setSeller] = useState<User[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
+  const [buyer, setBuyer] = useState<User[]>([]);
+  const [seller, setSeller] = useState<User[]>([]);
 
 
+  useEffect(() => {
+    axios.get<User[]>(`http://localhost:8000/auth/getAllUsers`)
+      .then((res) => {
+        setUsers(res.data);
+      })
+      .catch((err) => {
+        console.log('Error fetching user data:', err);
+      });
+  }, []);
 
-    const blockUser = (id, name) => {
-        const confirmed = window.confirm(`Are you sure you want to block ${name}?`);
-        if (confirmed) {
-          axios.delete(`http://localhost:8000/auth/delteuser/${id}`)
-            .then((res) => {
-              toast.success(`User ${name} blocked successfully`);
-              window.location.reload();
-            })
-            .catch((err) => {
-              console.log("Error:", err);
-            });
-        }
-      };
+  const blockUser = (id: number, name: string): void => {
+    const confirmed: boolean = window.confirm(`Are you sure you want to block ${name}?`);
+    if (confirmed) {
+      axios.delete(`http://localhost:8000/auth/delteuser/${id}`)
+        .then((res) => {
+          toast.success(`User ${name} blocked successfully`);
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log("Error:", err);
+        });
+    }
+  };
+  
+    
   return (
     <div className="flex" p-0 m-0>
       <div className="w-1/4 p-0 m-0">
-        <SideBar />
+      <Sidebar/>
       </div>
       <div className="w-3/4 p-0 m-0" style={{ marginRight: 0 }}>
         <Card className="h-full w-full">
@@ -85,30 +105,32 @@ const AllTable: React.FC = () => {
                   Members list
                 </Typography>
                 <Typography color="gray" className="mt-1 font-normal">
-                  See information about all user
+                  See information about all members
                 </Typography>
               </div>
-              <div className="flex shrink-0 flex-col gap-2 sm:flex-row" >
-                <Button variant="outlined" size="sm" onClick={()=>{navigate('/Admin/All')}}>
-                    
+              <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
+                <Button variant="outlined" size="sm">
                   view all
-                  
                 </Button>
-                <Button className="flex items-center gap-3" size="sm" >
+                <Button className="flex items-center gap-3" size="sm">
                   <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> Add member
                 </Button>
               </div>
             </div>
             <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
               <Tabs value="all" className="w-full md:w-max">
-                
+                <TabsHeader>
+                  {TABS.map(({ label, value }) => (
+                    <Tab key={value} value={value}>
+                      &nbsp;&nbsp;{label}&nbsp;&nbsp;
+                    </Tab>
+                  ))}
+                </TabsHeader>
               </Tabs>
               <div className="w-full md:w-72">
                 <Input
                   label="Search"
                   icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
             </div>
@@ -134,11 +156,7 @@ const AllTable: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-              {users
-            .filter((user) => {
-              const fullName = `${user.name || ''} ${user.lastname || ''}`.toLowerCase();
-              return fullName.includes(searchTerm.toLowerCase());
-            }).map((user, index) => {
+                {users.map((user, index) => {
                   const isLast = index === users.length - 1;
                   const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
@@ -146,7 +164,7 @@ const AllTable: React.FC = () => {
                     <tr key={user.name}>
                       <td className={classes}>
                         <div className="flex items-center gap-3">
-                          <Avatar src={user.image} alt={user.name} size="s" className="rounded-full" />
+                        <Avatar src={user.image} alt={""} style={{ width: '50px', height: '50px' }} className="rounded-full" />
                           <div className="flex flex-col">
                             <Typography
                               variant="small"
@@ -196,7 +214,7 @@ const AllTable: React.FC = () => {
                         </Tooltip>
                       </td>
                       <td className={classes}>
-                        <Tooltip content="Block User">
+                 <Tooltip content="Block User">
                           <IconButton variant="text">
                             <box-icon name='block' onClick={() => { blockUser(user.iduser,user.name), window.location.reload() }}></box-icon>
                             
@@ -210,17 +228,8 @@ const AllTable: React.FC = () => {
             </table>
           </CardBody>
           <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-            <Typography variant="small" color="blue-gray" className="font-normal">
-              Page 1 of 10
-            </Typography>
-            <div className="flex gap-2">
-              <Button variant="outlined" size="sm">
-                Previous
-              </Button>
-              <Button variant="outlined" size="sm">
-                Next
-              </Button>
-            </div>
+           
+           
           </CardFooter>
           
         </Card>
