@@ -89,7 +89,7 @@ function Nav() {
               <Link href="/components/wishlist">
               <box-icon name='heart'> </box-icon> 
               </Link>
-
+              
             </div>
             
             <Link href='/components/cart'>  
