@@ -11,6 +11,8 @@ router.post('/carthasp',controller.Insertcarthasproduct)
 router.post('/addwhis',controller.addwhis)
 router.get('/allwhis/:id',controller.allwhis)
 router.delete('/delwhis',controller.delwhis)
+router.delete('/delwhisbiId/:id',controller.delwhisbiId)
+
 router.get('/carthasp/:id',controller.Productfromcard)
 router.delete("/removeproduct/:cartid/:productid",controller.Removeproductfromcart);
 router.get('/namegategorie/:id',controller.Namecategorie)
