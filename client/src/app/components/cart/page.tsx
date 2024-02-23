@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import './Cart.css'
+
 import Footer from "../footer/page.tsx";
 import Nav from "../nav/page.tsx";
 
