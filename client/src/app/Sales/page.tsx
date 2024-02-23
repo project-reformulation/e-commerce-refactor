@@ -139,7 +139,6 @@ function Sales(): JSX.Element {
                 <div className="w-[270px] h-[41px] left-0 top-[209px] absolute bg-black rounded-bl rounded-br"></div>
                 <div className="left-[87px] top-[217px] absolute text-white text-base font-medium font-['Poppins'] leading-normal" onClick={() => {
                   addToCart(item.idproduct);
-                //   navigate(`/cart/${id}`);
                 }}>
                   Add To Cart
                 </div>
