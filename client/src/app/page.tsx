@@ -1,19 +1,13 @@
-import Image from "next/image";
-import Link from "next/link";
+
+// import Image from "next/image";
+
+export default function Home() {
+  return (
+   <div>HELLO HOME </div>
 
 
 export default function Home() {
   return (
-    <main>
-      <ul>
-        <li>
-        <Link href="/components/wishlist"> click</Link>
-    <Link href="/components/cart"> add</Link>
-    <Link href="/components/footer">footer</Link>
-    <Link href="/components/nav">nav</Link>
-    <Link href="/components/sales">sales</Link>
-        </li>
-      </ul>
-    </main>
+    <main >
   );
 }
