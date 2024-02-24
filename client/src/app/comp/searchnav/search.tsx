@@ -1,20 +1,17 @@
 "use client"
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState,ChangeEvent } from 'react';
 import axios from 'axios';
 
 
 interface Product {
-  id: number;
-  productName: string;
-  rating: number;
-  price: number;
-  description?: string;
-  sales: number;
-  available: string;
-  imageUrl?: string[];
-  categories?: string[];
-  size?: string;
-  colour?: string;
+  id:number;
+  productName:string;
+  rating:number;
+  price:number;
+  description?:string;
+  available:string;
+  imageUrl?:string[];
+  categories?:string[];
   UserId: number;
 }
 
@@ -31,7 +28,7 @@ const Search = () => {
       setProducts(response.data)
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching search results:', error);
+      console.error('Error fetching results:', error);
       setLoading(false);
     }
   };
@@ -45,7 +42,7 @@ const Search = () => {
   };
 
   const onSearchIconClick = () => {
-    handleSearch();
+    handleSearch()
   };
 
   return (
@@ -98,7 +95,7 @@ const Search = () => {
           />
         </svg>
         {loading && <p>Loading...</p>}
-        {selectedProduct && <ProductsDetails product={selectedProduct} />}
+        {selectedProduct && </*Component of product details*/product={selectedProduct}/>}
         {products.length > 0 && (
         <div className="search-results">
             {products.map((product) => (
