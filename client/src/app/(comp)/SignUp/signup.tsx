@@ -3,13 +3,14 @@ import axios, { AxiosError } from "axios";
 import Link from 'next/link'
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from 'next/navigation'
 
 export default function SignUp() {
     const [name,setName]=useState<string>("")
     const [email,setEmail]=useState<string>("")
     const [password,setPassword]=useState<string>("")
     const [role,setRole]=useState<'user'|'seller'>('user') 
-
+    const router=useRouter()
 
 
     const sign = () => {
@@ -29,6 +30,7 @@ export default function SignUp() {
         )
           .then((res) => {
             console.log(res, "successfully");
+            router.push('/Login')
           })
           .catch((err) => {
             console.log(err);
@@ -162,7 +164,7 @@ export default function SignUp() {
                  { sign()}}>
                   
         <div className="ViewAllProducts text-neutral-50 text-base font-medium font-['Poppins'] leading-normal">
-        <Link href="/comp/Login">Create Account</Link>
+        Create Account
         </div>
       </button> 
       

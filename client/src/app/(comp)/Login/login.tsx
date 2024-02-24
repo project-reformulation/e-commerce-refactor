@@ -2,10 +2,9 @@
 import Link from 'next/link';
 import React, {useEffect, useState } from 'react'
 import { useRouter } from "next/navigation";
-import  { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
 import axios from 'axios';
-import {motion,AnimatePresence} from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const login = () => {
     const router = useRouter()
@@ -13,44 +12,51 @@ const login = () => {
     const [password,setPassword]=useState<any>()
     const [token,setToken]=useState<any>()
     const [user, setUser] = useState<any>() 
-    const [role,setRole]=useState<'user'|'seller'|"admin">('user') 
 
 
-console.log(user,"the token decoded");
 
-Cookies.set('token', token, { expires: 7, secure: true });
+
 const header={
   headers: {
         Authorization : `Bearer ${token}`
     }
    
 }
-console.log(header,"this is header");
 const sajl=()=>{  
         axios.post("http://localhost:8000/auth/login",{
            email: email,
            password: password
        },header
         ).then((response)=>{
-          const {token,id}=response.data
-          console.log(role,"my role");
+          console.log(response.data);
+          
+          const { role,token, iduser }=response.data
+          Cookies.set('token', token, { expires: 7, secure: true });
            setToken(response.data.token)
-           const tkn = jwtDecode(response.data.token) as { iduser: string }; 
-           setUser(tkn)
-           })
            if (role === 'admin') {
-            return <Link href="/Admin/All"></Link>;
-          } else if (role === 'user') {
-            console.log('user is already', user);
-            return <Link href={`/:${user.iduser}`}></Link>;
-          } else if (role === 'seller') {
-            return <Link href="/Seller"></Link>;
-          } else {
-            return <Link href="/"></Link>;
-          }          
+            router.push(`/Admin/${iduser}`)
+           } 
+            if (role === 'user') {
+            router.push(`/user/${iduser}`)
+           } 
+            if (role === 'seller') {
+              router.push(`/Seller/${iduser}`)
+           } 
+           else {
+            
+            <Link href="/"></Link>;
+           }
+           })
+      
+        
          }
      
+     
        
+       
+          
+        
+
 
 useEffect(() => {
    const allCookies = Cookies.get("token");
@@ -61,8 +67,10 @@ useEffect(() => {
    
 
     <div>
-      <div className="SignUp w-full  bg-white" >
+      
+      <div className="SignUp w-full   bg-white" >
  
+  
   <div className="Line3 w-full h-0 left-0   justify-center items-center inline-flex">
     <div className="Line3 w-full h-[0px] origin-top-left rotate-180 opacity-30 border border-black"></div>
   </div>
@@ -93,8 +101,10 @@ useEffect(() => {
     <div className="flex-col justify-start items-start gap-2 flex">
       <div className="opacity-40 text-black text-base font-normal font-['Poppins'] leading-normal"></div>
      
-      <label        htmlFor="email"
-                    className="block mb-2 text-sm font-medium  dark:text-white" >
+      <label
+                    htmlFor="email"
+                    className="block mb-2 text-sm font-medium  dark:text-white"
+                  >
                     E-mail
                   </label>
      
@@ -123,6 +133,7 @@ useEffect(() => {
                     id="password"
                     placeholder="••••••••"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                
                     onChange={(e)=>{setPassword(e.target.value)}}
                   />
     </div>
