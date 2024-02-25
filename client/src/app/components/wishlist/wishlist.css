@@ -1,0 +1,130 @@
+/* Container styles */
+.wishlist-container {
+    font-family: 'Poppins', sans-serif;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+/* Header and Footer styles */
+.wishlist-header, .wishlist-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.image{
+    width: 50px;
+    height: 50px;
+}
+/* Title styles */
+.wishlist-title {
+    font-size: 24px;
+    color: #333;
+}
+
+/* Button styles */
+.wishlist-move-btn, .wishlist-see-all-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.wishlist-move-btn:hover, .wishlist-see-all-btn:hover {
+    background-color: #555;
+}
+
+/* Items container styles */
+.wishlist-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* Item styles */
+.wishlist-item {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Image styles */
+.wishlist-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Delete button styles */
+.wishlist-delete-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+/* Discount label styles */
+.wishlist-discount {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #ff0000;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+/* Details container styles */
+.wishlist-details {
+    padding: 15px;
+}
+
+/* Product name styles */
+.wishlist-product-name {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Price styles */
+.wishlist-price {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.wishlist-price .wishlist-discounted-price {
+    font-size: 20px;
+    color: #ff0000;
+    margin-right: 10px;
+}
+
+.wishlist-price .wishlist-original-price {
+    font-size: 16px;
+    color: #999;
+    text-decoration: line-through;
+}
+
+/* Add to cart button styles */
+.wishlist-add-to-cart-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ff0000;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.wishlist-add-to-cart-btn:hover {
+    background-color: #cc0000;
+}

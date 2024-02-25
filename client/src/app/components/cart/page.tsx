@@ -18,22 +18,40 @@ interface Product {
     user_iduser: number;
 }
 
+interface Image {
+    idimage:number;
+    imageurl: String;
+    product_idproduct: number;
+}
 const Cart: React.FC = () => {
     const [products, setProducts] = useState([]);
-    const [pq, setPq] = useState<Array>([]);
-    const [image, setImage] = useState([]);
+
+    const [images, setImage] = useState([]);
     const [idc, setIdc] = useState(0);
     const [id, setId] = useState<number>(1);
-    
-
-
+    const [pq, setPq] = useState<{ product_idproduct: number; quantitycp: number }[]>([]);
+    const [message, setMessage] = useState<string>("");
 const fetchData = async () => {
     try {
     const cartResponse = await axios.get(
-        `http://localhost:8000/cart/getcart/${id}`
+        `http://localhost:8000/cart/getcart/1`
     );
         console.log(cartResponse.data);
         setProducts(cartResponse.data);
+        const initialPq = cartResponse.data.map((product: Product) => ({
+            product_idproduct: product.idproduct,
+            quantitycp: 0, 
+        }));
+        setPq(initialPq);
+        const productIds = cartResponse.data.map((product: Product) => product.idproduct);
+
+        const imagesResponse = await Promise.all(productIds.map(productId =>
+            axios.get(`http://localhost:8000/cart/image/2`)
+        ));
+
+        const imageUrls = imagesResponse.map(response => response.data.imageurl);
+        setImage(imageUrls);
+        
     } catch (error) {
         console.error("Error fetching data:", error);
     }
@@ -43,7 +61,7 @@ const fetchData = async () => {
     console.log(id);
     try {
         const cartResponse = await axios.get(
-        `http://localhost:8000/cart/getcart/${id}`
+        `http://localhost:8000/cart/getcart/1`
     );
         if (cartResponse.data && cartResponse?.data?.length > 0) {
         const cartData = cartResponse?.data[0];
@@ -80,41 +98,49 @@ const fetchData = async () => {
         });
 };
 
-const inc = (id: number) => {
+const inc = (Id:number) => {
+    setPq((x) => {
+        const updatedPq = x.map((product) => {
+            if (product.product_idproduct === Id && product.quantitycp < 10) {
+                return { ...product, quantitycp: product.quantitycp + 1 };
+            } else {
+                return product;
+            }
+        });
+        return updatedPq;
+    });
+    if (pq.find((product) => product.product_idproduct === Id)?.quantitycp === 9) {
+        setMessage("You have reached the maximum quantity for this item.");
+    } else {
+        setMessage("");
+    }
+};
+
+
+
+const dec = (Id:number) => {
     setPq((x) => {
         const updatedPq = x.map((product) =>
-            product.idproduct === Id
-                ? { ...product, quantitycp: product.quantitycp + 1 }
-                : product
+        product.product_idproduct === Id && product.quantitycp > 1
+            ? { ...product, quantitycp: product.quantitycp - 1 }
+            : product
         );
         return updatedPq;
     });
 };
 
-
-const dec = (id: number) => {
-    setPq((x) => {
-        const updatedPq = x.map((product) =>
-            product.idproduct === Id && product.quantitycp > 1
-                ? { ...product, quantitycp: product.quantitycp - 1 }
-                : product
-        );
-        return updatedPq;
-    });
-};
-
-
-    const calculateSubtotal = (product: any, qc: number) => {
+const calculateSubtotal = (product, qc) => {
     return product.pricep * qc;
 };
 
 const calculateTotal = () => {
     return products.reduce(
-        (total, product) =>
-            total + calculateSubtotal(product, product.quantitycp),
+        (total, product, i) =>
+        total + calculateSubtotal(product, pq[i].quantitycp),
         0
     );
-};
+    };
+
 
 useEffect(() => {
     fetchData();
@@ -125,114 +151,78 @@ return (
     <>
         <Nav />
         <main>
-            <div className="container mx-auto">
-                <div className="text-black my-10 h-10 text-lg justify-start items-center gap-4 flex">
-                    <div className="opacity-50 font-normal font-['Poppins'] leading-tight">
-                        Home
+        <div className="container mx-auto">
+            <div className="my-10 flex items-center gap-4 text-sm text-gray-600">
+                <div className="font-medium">Home</div>
+                <div className="w-4 h-px bg-gray-400 transform -rotate-45"></div>
+                <div className="font-medium">Cart</div>
+            </div>
+            <div className="flex flex-col gap-6">
+                <div className="bg-white rounded shadow-md p-6">
+                    <div className="flex justify-between items-center mb-6 text-sm font-semibold">
+                        <div className="w-1/3">Product</div>
+                        <div className="w-1/6 text-center">Price</div>
+                        <div className="w-1/6 text-center">Quantity</div>
+                        <div className="w-1/6 text-center">Subtotal</div>
                     </div>
-                    <div className="w-4 h-px  rotate-[117.05deg] opacity-50 border border-black"></div>
-                    <div className=" font-normal font-['Poppins']">Cart</div>
+                    {products.map((product: Product, index) => (
+                        <div className="flex justify-between items-center mb-4" key={index}>
+                            <div className="flex items-center w-1/3 gap-4">
+                            {images.map((image:Image, index) => (
+    <img
+        key={index}
+        className="w-20 h-20 object-cover rounded"
+        src={image?.imageurl}
+        alt=""
+    />
+))}
+
+                                <div>{product.namep}</div>
+                            </div>
+                            <div className="w-1/6 text-center">${product.pricep}</div>
+                            <div className="flex items-center w-1/6 justify-center">
+    <button className="text-gray-500 hover:text-gray-700" onClick={() => dec(product.idproduct)}>-</button>
+    <span className="mx-2">{pq[index]?.quantitycp}</span>
+    {pq[index]?.quantitycp === 9 && (
+        <span className="text-red-500 font-bold">Max Quantity Reached</span>
+    )}
+    <button className="text-gray-500 hover:text-gray-700" onClick={() => inc(product.idproduct)}>+</button>
+</div>
+                            <div className="w-1/6 text-center">${calculateSubtotal(product, pq[index]?.quantitycp)}</div>
+                        </div>
+                    ))}
                 </div>
-                <div className="flex flex-col justify-start items-start gap-6">
-                    <div className="w-full bg-white rounded shadow p-6">
-                        <div className="flex w-full justify-between items-center gap-8">
-                            <div className="text-black font-medium w-16 h-12">Product</div>
-                            <div className="text-black font-medium w-16 h-12 ml-52">
-                                <h1>Price</h1>
-                            </div>
-                            <div className="text-black font-medium w-16 h-12">quantity</div>
-                            <div className="text-black font-medium w-16 h-12">Subtotal</div>
+                <div className="flex justify-between items-center mt-6">
+                    <Link href="/">
+                        Return to Shop
+                    </Link>
+                    <button className="border border-black rounded px-4 py-2" onClick={upd}>Update Cart</button>
+                </div>
+                <div className="flex justify-between items-center mt-6">
+                    <input type="text" placeholder="Coupon Code" className="border border-gray-400 rounded px-4 py-2 outline-none text-sm" />
+                    <button className="bg-red-500 text-white rounded px-4 py-2">Apply Coupon</button>
+                </div>
+                <div className="flex justify-end mt-6">
+                    <div className="bg-white rounded shadow-md p-6">
+                        <div className="text-lg font-semibold mb-4">Cart Total</div>
+                        <div className="flex justify-between items-center mb-2">
+                            <div>Subtotal:</div>
+                            <div>${calculateTotal()}</div>
                         </div>
-                        {products.map((product: Product, index) => {
-                            console.log(product);
-                            return (
-                                <div
-                                    className="flex justify-between items-center mt-8"
-                                    key={index}
-                                >
-                                    <div className="flex items-center gap-4">
-                                {image.map((img, imgIndex) => (
-                                <img key={imgIndex} className="w-40 h-40" src={img.imageurl} alt="" />
-                                ))}
-
-                                        <div className="w-24 h-12">{product.namep}</div>
-                                    </div>
-
-                                    <div className="w-16 h-12">${product.pricep}</div>
-
-                                    <div className="flex items-center w-14 h-12">
-                                        <button
-                                            className="border border-black rounded px-2"
-                                            onClick={() => dec(product.idproduct)}
-                                        >
-                                            -
-                                        </button>
-                                        <span className="mx-2 w-20">{pq[index] && pq[index].quantitycp}</span>
-                                        <button
-                                            className="border border-black rounded px-2"
-                                            onClick={() => inc(product.idproduct)}
-                                        >
-                                            +
-                                        </button>
-                                    </div>
-                                    <div>${calculateSubtotal(product, pq[index]?.quantitycp)}</div>
-                                </div>
-                            );
-                        })}
-                    </div>
-                    <div className="flex justify-between items-center w-full mt-6">
-                        <button
-                            className="border border-black rounded px-4 py-2"
-                            onClick={() => <Link href={(`${id}`)}> </Link>}
-                        >
-                            <Link href="/"> return to Shop</Link>
-                        </button>
-                        <button className="border border-black rounded px-4 py-2">
-                            Update Cart
-                        </button>
-                    </div>
-                    <div className="flex justify-between items-center mt-6">
-                        <div className="border border-black rounded px-4 py-2">
-                            <input
-                                type="text"
-                                placeholder="Coupon Code"
-                                className="outline-none"
-                            />
+                        <div className="flex justify-between items-center mb-2">
+                            <div>Shipping:</div>
+                            <div>Free</div>
                         </div>
-                        <button className="bg-red-500 text-white rounded mx-4 px-4 py-2">
-                            Apply Coupon
-                        </button>
-                    </div>
-                    <div className="flex justify-end w-full">
-                        <div className="bg-white rounded shadow p-6 mt-6 flex-col justify-end">
-                            <div className="text-xl font-medium">Cart Total</div>
-                            <div className="flex justify-between items-center mt-4">
-                                <div>Subtotal:</div>
-                                <div>${calculateTotal()}</div>
-                            </div>
-                            <div className="flex justify-between items-center mt-4">
-                                <div>Shipping:</div>
-                                <div>Free</div>
-                            </div>
-                            <div className="flex justify-between items-center mt-4">
-                                <div>Total:</div>
-                                <div>${calculateTotal()}</div>
-                            </div>
-
-                            <button
-                                className="bg-red-500 text-white rounded px-4 py-2 mt-6"
-                                onClick={() => {
-                                    upd();
-                                    <Link href={(`${id}`)}> </Link>
-                                }}
-                            >
-                                Proceed to Checkout
-                            </button>
+                        <div className="flex justify-between items-center mb-4">
+                            <div>Total:</div>
+                            <div>${calculateTotal()}</div>
                         </div>
+                        <button className="bg-red-500 text-white rounded px-4 py-2 w-full">Proceed to Checkout</button>
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
+    </main>
         <Footer />
     </>
 );

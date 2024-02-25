@@ -15,6 +15,11 @@ interface Wish {
     user_iduser: number;
     idproduct: number;
 }
+interface Image {
+    idimage:number;
+    imageurl: String;
+    product_idproduct: number;
+}
 const Wishlist:React.FC=()=> {
 
     const [product, setProduct] = useState<any[]>([]); 
@@ -27,7 +32,7 @@ const Wishlist:React.FC=()=> {
 
         try {
         const wishlistResponse = await axios.get(
-            `http://localhost:8000/cart/allwhis/${id}`
+            `http://localhost:8000/cart/allwhis/1`
         );
             console.log(wishlistResponse.data);
             setProduct(wishlistResponse.data);
@@ -82,7 +87,7 @@ const Wishlist:React.FC=()=> {
                     <div className="w-[190px] h-[180px] px-1.5 pt-[26px] pb-[25px] left-[40px] top-[15px] absolute justify-center items-center inline-flex">
                     <img
                         className="w-[178px] h-[129px]"
-                        src={images[index]}
+                        src="https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/tile/Apple-iPhone-15-Pro-lineup-hero-230912.jpg.news_app_ed.jpg"
                     />
                     </div>
                     <div className="left-[83.50px] top-[217px] absolute justify-center  items-center gap-2 inline-flex">
@@ -156,10 +161,21 @@ const Wishlist:React.FC=()=> {
                     </div>
                     </div>
                     <div className="w-[190px] h-[180px] px-4 py-[7px] left-[40px] top-[22px] absolute justify-center items-center inline-flex">
-                    <img
+                    
+                    {images.map((image:Image, index) => (
+    <img
+        key={index}
+        className="w-20 h-20 object-cover rounded"
+        src={image?.imageurl}
+        alt=""
+    />
+))}
+
+                    {/* <img
                         className="w-[158px] h-[166px]"
-                        src={images[i]}
-                    />
+                        src="https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/tile/Apple-iPhone-15-Pro-lineup-hero-230912.jpg.news_app_ed.jpg"
+                        alt=""
+                    /> */}
                     </div>
                 </div>
                 <div className="flex-col justify-start items-start gap-2 flex">
