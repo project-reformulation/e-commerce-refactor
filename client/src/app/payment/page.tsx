@@ -55,6 +55,7 @@ const payment = () => {
             />
           </div> 
           </div>
+          
     </div>
        
         
