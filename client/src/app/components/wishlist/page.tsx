@@ -56,7 +56,7 @@ const Wishlist:React.FC=()=> {
             <div className="flex-col justify-start items-start gap-[60px] flex">
             <div className="justify-start items-center gap-[835px] inline-flex">
                 <div className="text-center text-black text-xl font-normal font-['Poppins'] leading-relaxed">
-                Wishlist (2)
+                Wishlist ()
                 </div>
                 <div className="px-12 py-4 rounded border border-black border-opacity-50 justify-center items-center gap-2.5 flex">
                 <div className="text-black text-base font-medium font-['Poppins'] leading-normal">
@@ -85,10 +85,14 @@ const Wishlist:React.FC=()=> {
                     </div>
                     </div>
                     <div className="w-[190px] h-[180px] px-1.5 pt-[26px] pb-[25px] left-[40px] top-[15px] absolute justify-center items-center inline-flex">
-                    <img
-                        className="w-[178px] h-[129px]"
-                        src="https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/tile/Apple-iPhone-15-Pro-lineup-hero-230912.jpg.news_app_ed.jpg"
-                    />
+                    {images.map((image:Image, index) => (
+    <img
+        key={index}
+        className="w-20 h-20 object-cover rounded"
+        src={image?.imageurl}
+        alt=""
+    />
+))}
                     </div>
                     <div className="left-[83.50px] top-[217px] absolute justify-center  items-center gap-2 inline-flex">
                     <div className="w-6 h-6 relative" />
@@ -161,7 +165,7 @@ const Wishlist:React.FC=()=> {
                     </div>
                     </div>
                     <div className="w-[190px] h-[180px] px-4 py-[7px] left-[40px] top-[22px] absolute justify-center items-center inline-flex">
-                    
+
                     {images.map((image:Image, index) => (
     <img
         key={index}
@@ -169,14 +173,10 @@ const Wishlist:React.FC=()=> {
         src={image?.imageurl}
         alt=""
     />
-))}
+    ))}
 
-                    {/* <img
-                        className="w-[158px] h-[166px]"
-                        src="https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/tile/Apple-iPhone-15-Pro-lineup-hero-230912.jpg.news_app_ed.jpg"
-                        alt=""
-                    /> */}
                     </div>
+
                 </div>
                 <div className="flex-col justify-start items-start gap-2 flex">
                     <div className="text-black text-base font-medium font-['Poppins'] leading-normal">

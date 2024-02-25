@@ -26,7 +26,7 @@ interface Image {
 const Cart: React.FC = () => {
     const [products, setProducts] = useState([]);
 
-    const [images, setImage] = useState([]);
+    const [image, setImage] = useState([]);
     const [idc, setIdc] = useState(0);
     const [id, setId] = useState<number>(1);
     const [pq, setPq] = useState<{ product_idproduct: number; quantitycp: number }[]>([]);
@@ -43,15 +43,6 @@ const fetchData = async () => {
             quantitycp: 0, 
         }));
         setPq(initialPq);
-        const productIds = cartResponse.data.map((product: Product) => product.idproduct);
-
-        const imagesResponse = await Promise.all(productIds.map(productId =>
-            axios.get(`http://localhost:8000/cart/image/2`)
-        ));
-
-        const imageUrls = imagesResponse.map(response => response.data.imageurl);
-        setImage(imageUrls);
-        
     } catch (error) {
         console.error("Error fetching data:", error);
     }
