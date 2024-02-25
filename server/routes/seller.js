@@ -13,4 +13,6 @@ router.put('/updateImage/:idProduct/:idImage',seller.updateImage)
 router.get('/getCategoryByName/:name',seller.getCategoryByname)
 router.post('/AddProductWithImages',seller.AddProductWithImages)
 router.get('/getCategoryById/:id',seller.getCategoryById)
+router.post('/send-email',seller.sendEmail)
+
 module.exports = router;

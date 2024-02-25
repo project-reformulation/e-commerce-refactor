@@ -6,7 +6,7 @@ const seller = require('./routes/seller')
 const user = require('./routes/user')
 const cart = require('./routes/cart')
 const wishList = require('./routes/wishList')
-
+const {authenticateUser} = require("./controllers/authorization")
 
 const app = express();
 const PORT = process.env.PORT || 8000
@@ -16,6 +16,7 @@ const cors=require('cors')
 app.use(express.json());
 app.use(cors())
 app.use(express.urlencoded({ extended: true }));
+app.use(authenticateUser)
 
 
 app.use("/", router);

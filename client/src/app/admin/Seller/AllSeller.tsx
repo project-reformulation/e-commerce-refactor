@@ -1,9 +1,10 @@
 "use client"
+import 'boxicons'
 import Link from 'next/link';
 import { toast } from 'react-toastify';
 import Sidebar from '../Sidebar';
  axios 
-// import SideBar from "./SideBar";
+ import { SlTrash } from "react-icons/sl";
 import {
     Card,
     CardHeader,
@@ -22,7 +23,7 @@ import {
   } from "@material-tailwind/react";
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { link } from 'fs';
+
 import { MagnifyingGlassIcon, PencilIcon, TrashIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 
   const TABLE_HEAD = ["User", "Email", "Status", "Created", "", ""];
@@ -78,29 +79,28 @@ function AllSeller() {
                   See information about all user
                 </Typography>
               
-              <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-                <Button variant="outlined" size="sm" onClick={()=>{}}> 
-                  view all
-  </Button>
-                <Button className="flex items-center gap-3" size="sm">
-                  <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> Add member
-                </Button></div>
+          
               </div>
             </div>
             
             <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-              <Tabs value="all" className="w-full md:w-max">
-                
-              </Tabs>
-              <div className="w-full md:w-72">
-                <Input
-                  label="Search"
-                  icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
-            </div>
+  <Tabs value="all" className="w-full md:w-max">
+
+  </Tabs>
+
+  <div className="w-full md:w-72">
+  <Input
+  value={searchTerm}
+  onChange={(e) => setSearchTerm(e.target.value)}
+  icon={<MagnifyingGlassIcon className="h-5 w-5" />}
+  className="mt-2 p-2 border border-gray-300 rounded-md flex items-center focus:outline-none focus:border-blue-500 transition-all duration-300"
+  placeholder="Search here..."
+/>
+
+  </div>
+</div>
+
+
           </CardHeader> 
           <CardBody className="px-0" >
             <table className="w-full min-w-max table-auto text-left">
@@ -135,7 +135,7 @@ function AllSeller() {
                     <tr key={user.name}>
                       <td className={classes}>
                         <div className="flex items-center gap-3">
-                        <Avatar src={user.image} alt={user.name} style={{ width: '50px', height: '50px' }} className="rounded-full" />
+                        <Avatar src={user.image} alt="" style={{ width: '50px', height: '50px' }} className="rounded-full" />
 
                           <div className="flex flex-col">
                             <Typography
@@ -181,14 +181,15 @@ function AllSeller() {
                       <td className={classes}>
                         <Tooltip content="Edit User">
                           <IconButton variant="text">
-                            <PencilIcon className="h-4 w-4" onClick={() => { Link}} /> 
+                          <Link href={`/admin/Edit/${user.iduser}`}><PencilIcon className="h-4 w-4 text-green-500"  /></Link> 
+
                           </IconButton>
                         </Tooltip>
                       </td>
                       <td className={classes}>
                         <Tooltip content="Block User">
                           <IconButton variant="text">
-                            <box-icon name='block' onClick={() => { blockUser(user.iduser,user.name), window.location.reload() }}></box-icon>
+                          <SlTrash  name='block' onClick={() => { blockUser(user.iduser,user.name), window.location.reload() }}></SlTrash >
                             
                           </IconButton>
                         </Tooltip>
@@ -200,17 +201,8 @@ function AllSeller() {
             </table>
           </CardBody>
           <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-            <Typography variant="small" color="blue-gray" className="font-normal">
-              Page 1 of 10
-            </Typography>
-            <div className="flex gap-2">
-              <Button variant="outlined" size="sm">
-                Previous
-              </Button>
-              <Button variant="outlined" size="sm">
-                Next
-              </Button>
-            </div>
+            
+          
           </CardFooter>
          
         </Card>

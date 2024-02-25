@@ -31,14 +31,15 @@ const ProductListByCategory = ({idd}:ProductListByCategoryId) => {
   }, [idd]);
 
   return (
-    <div className="flex">
-   <div className="w-1/4">
-     <Sidebar/> 
-  </div>
+    <div className="flex h-screen">
+    <div className="w-1/4 p-6">
+      <Sidebar />
+    </div>
+    <div className="flex-1 p-6">
       <h2 className="text-2xl font-bold mb-4">Products in Category</h2>
       <div className="overflow-x-auto">
-        <table className="table-auto w-full">
-          <thead>
+        <table className="w-full">
+          <thead className="bg-gray-200">
             <tr>
               <th className="px-4 py-2">Product Name</th>
               <th className="px-4 py-2">Price</th>
@@ -52,14 +53,15 @@ const ProductListByCategory = ({idd}:ProductListByCategoryId) => {
                 <td className="border px-4 py-2">{product.namep}</td>
                 <td className="border px-4 py-2">{product.pricep}</td>
                 <td className="border px-4 py-2">{product.descriptionp}</td>
-                <td className="border px-4 py-2">{product.quantityp}
-                </td>
+                <td className="border px-4 py-2">{product.quantityp}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
     </div>
+  </div>
+
   );
 };
 export default ProductListByCategory;

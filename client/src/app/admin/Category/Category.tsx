@@ -63,7 +63,6 @@ import {
       console.log(err);
     });
   };
-
   return (
     <div className="flex">
       <div className="w-1/4">
@@ -72,11 +71,11 @@ import {
     <div className="container mx-auto">
       <h2 className="text-2xl font-bold mb-4">Category List</h2>
       <button
-        onClick={() => setShowAddForm(true)}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4"
-      >
-        Add Category ➕
-      </button>
+  onClick={() => setShowAddForm(true)}
+  className="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold py-2 px-4 rounded shadow-md hover:shadow-lg transition-shadow duration-200 focus:outline-none focus:shadow-outline-blue"
+>
+  Add Category ➕
+</button>
       {showAddForm && (
         <div className="mb-4">
           <input
@@ -87,11 +86,11 @@ import {
             placeholder="Enter category name"
           />
           <button
-            onClick={() => { handleAddCategory(), window.location.reload() }}
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Add ➕
-          </button>
+  onClick={() => { handleAddCategory(), window.location.reload() }}
+  className="bg-gray-200 hover:bg-gray-300 text-black font-bold py-2 px-4 rounded"
+>
+  Add ➕
+</button>
         </div>
       )}
       <div className="overflow-x-auto">
@@ -109,25 +108,28 @@ import {
                 <td className="border px-4 py-2">{category.name}</td>
                 <td className="border px-4 py-2">{category.productCount}</td>
                 <td className="border px-4 py-2">
-                  <button
-                    // onClick={() => navigate(``)}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                  >
-                    <Link  href={`productList/${category.idcategory}`}> View Products 👁️</Link>
-                   
-                  </button>
+                <button
+  
+  className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded mr-2"
+>
+  <Link href={`productList/${category.idcategory}`}> View Products </Link>
+</button>
                   {/* <Link
                     to={`/categories/${category.idcategory}/edit`}
                     className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
                   >
                     Edit
                   </Link> */}
-                  <button
-                    onClick={() => { handleDeleteCategory(category.idcategory), window.location.reload() }}
-                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                  >
-                    Delete 🗑️
-                  </button>
+                <button
+  onClick={() => { handleDeleteCategory(category.idcategory); window.location.reload(); }}
+  className="bg-red-500 hover:bg-red-600 text-gray-700 font-bold py-2 px-4 rounded"
+>
+  Delete 
+</button>
+
+
+
+
                 </td>
 
               </tr>

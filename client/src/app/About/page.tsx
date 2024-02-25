@@ -1,6 +1,6 @@
 import React from 'react';
-import Nav from '../Nav/page';
-import Footer from '../Footer/page';
+import Nav from '../HomeComponents/Nav/page';
+import Footer from '../HomeComponents/Footer/page';
 
 function About(): JSX.Element {
   return (
