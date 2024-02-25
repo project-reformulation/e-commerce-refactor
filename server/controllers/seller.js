@@ -1,4 +1,5 @@
 const db = require('../database/indesx')
+const nodemailer = require('nodemailer');
 
 
 const createProduct = (req, res) => {
@@ -149,4 +150,43 @@ const AddProductWithImages = (req, res) => {
             res.json('err') })
 
 }
-module.exports = { createProduct, getProduct, updateProduct, deleteProduct, manageStock, managePrice, createImage, getImages, deleteImage, updateImage, getCategoryByname, AddProductWithImages ,getCategoryById}
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'farhatachref12@gmail.com',
+        pass: 'Centrale2020@',
+    },
+});
+
+const sendEmail = async (req, res) => {
+    const { to, subject, text } = req.body;
+
+    try {
+        const email = await db.Email.create({
+            to,
+            subject,
+            text,
+        });
+
+        const mailOptions = {
+            from: 'farhatachref12@gmail.com',
+            to: email.to,
+            subject: email.subject,
+            text: email.text,
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error('Error sending email:', error);
+                res.status(500).send('Error sending email');
+            } else {
+                console.log('Email sent:', info.response);
+                res.status(200).send('Email sent successfully');
+            }
+        });
+    } catch (error) {
+        console.error('Error saving email to database:', error);
+        res.status(500).send('Error saving email to database');
+    }
+};
+module.exports = { createProduct, getProduct, updateProduct, deleteProduct, manageStock, managePrice, createImage, getImages, deleteImage, updateImage, getCategoryByname, AddProductWithImages ,getCategoryById,sendEmail}

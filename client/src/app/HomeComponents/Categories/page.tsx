@@ -1,3 +1,4 @@
+"use client"
 import { IoPhonePortraitOutline } from "react-icons/io5";
 import { HiOutlineComputerDesktop } from "react-icons/hi2";
 import { BsSmartwatch } from "react-icons/bs";

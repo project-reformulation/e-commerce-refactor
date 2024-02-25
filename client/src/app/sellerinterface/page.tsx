@@ -1,17 +1,13 @@
-"use client"
+"use client";
 import React from "react";
-import Nav from '../Navseller/page';
-import ProductList from "../Productlist/page";
-import Footer from '../Footer/page';
+import ProductList from "../components/Productlist/Productlist";
 
 const Dashboard: React.FC = () => {
-    return (
-        <>
-            <Nav />
-            <ProductList />
-            <Footer />
-        </>
-    );
-}
+  return (
+    <div className="h-screen">
+      <ProductList />
+    </div>
+  );
+};
 
 export default Dashboard;

@@ -68,7 +68,20 @@ const User = sequelize.define('user', {
     },
     imageurl: DataTypes.TEXT
   });
-  
+  const Email = sequelize.define('Email', {
+    to: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    subject: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    text: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+    },
+});
   
   const Whislist = sequelize.define('whislist', {
     idwhislist: {
@@ -141,5 +154,5 @@ const User = sequelize.define('user', {
     console.error('err :', err);
   });
   
-  module.exports = { User, Product, Image, Whislist, Paiement, Cart, CartHasProduct,Category };
+  module.exports = { User, Product, Image, Whislist, Paiement, Cart, CartHasProduct,Category,Email };
 
