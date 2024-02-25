@@ -51,13 +51,17 @@ const Allproduct = async (req, res) => {
   }
 };
 const Cart = async (req, res) => {
-  const id = req.params.id;
+  const id = +req.params.id;
+  console.log(id);
   try {
-    const result = await db.Cart.findAll({
-      where: {
-        user_iduser: id,
-        status:"encours",
-      },
+    const result = await db.Product.findAll({
+      // where: {
+      //   user_iduser: id,
+      //   status:"encours",
+      // },
+
+      // include: db.CartHasProduct
+      include: [{ model: db.Cart, where: {user_iduser: id },attributes: []}, {model: db.Image}],
     });
     res.json(result);
   } catch (err) {
@@ -114,19 +118,21 @@ const Productfromcard = async (req, res) => {
     console.log(err);
   }
 };
-const Removeproductfromcart=async(req,res)=>{
-    const { cartid, productid } = req.params;
-    await db.CartHasProduct.destroy({
-        where:{
-            cart_idcart:cartid,
-            product_idproduct:productid
-            }
-        })
-    .then((result)=>{
-        res.send(result)}).catch((err)=>{
-            console.log(err)
-        })
-}
+const Removeproductfromcart = async (req, res) => {
+  const { cartid, productid } = req.params;
+  await db.CartHasProduct.destroy({
+    where: {
+      cart_idcart: cartid,
+      product_idproduct: productid,
+    },
+  })
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 const Namecategorie = async (req, res) => {
   const id = req.params.id;
   try {
@@ -139,7 +145,7 @@ const Namecategorie = async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-}
+};
 const addwhis = async (req, res) => {
   const data = req.body;
   const d = await db.Whislist.create(data)
@@ -149,14 +155,14 @@ const addwhis = async (req, res) => {
     .catch((err) => {
       console.log(err);
     });
-}
+};
 const delwhis = async (req, res) => {
   const data = req.body;
   const d = await await db.Whislist.destroy({
     where: {
       user_iduser: data.user_iduser,
-      product_idproduct: data.product_idproduct
-    }
+      product_idproduct: data.product_idproduct,
+    },
   })
     .then((result) => {
       res.json(result.data);
@@ -164,7 +170,24 @@ const delwhis = async (req, res) => {
     .catch((err) => {
       console.log(err);
     });
-}
+};
+const delwhisbiId = async (req, res) => {
+  const { user_iduser, product_idproduct } = req.params.id; 
+  try {
+    const result = await db.Whislist.destroy({
+      where: {
+        user_iduser: user_iduser,
+        product_idproduct: product_idproduct
+      }
+    });
+    res.json(result);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'An error occurred while deleting the wishlist item.' });
+  }
+};
+
+
 const allwhis = async (req, res) => {
   const id = req.params.id;
   try {
@@ -177,7 +200,7 @@ const allwhis = async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-}
+};
 
 module.exports = {
   Oneproduct,
@@ -193,5 +216,6 @@ module.exports = {
   Namecategorie,
   addwhis,
   delwhis,
-  allwhis
+  allwhis,
+  delwhisbiId
 };

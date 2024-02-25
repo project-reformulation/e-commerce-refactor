@@ -114,7 +114,7 @@ loginIn: async function (req, res) {
       res.json('Invalid Password');
     } else {
       const token = jwt.sign({ email: userResults.email, name: userResults.name ,iduser: userResults.iduser,role:userResults.role }, secretKey, { expiresIn: '3h' });
-      res.json({ token: token });
+      res.json({email: userResults.email, name: userResults.name ,iduser: userResults.iduser,role:userResults.role , token: token });
     }
   } catch (error) {
     console.error("Error:", error);
