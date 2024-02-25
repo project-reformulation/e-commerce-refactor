@@ -4,6 +4,9 @@ const mysql = require('mysql2')
 
 const sequelize = new Sequelize('ecommerce', 'root', 'choclata', {
 
+
+
+
     host:'localhost',
     dialect:'mysql'
 })
