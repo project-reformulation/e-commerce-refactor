@@ -1,5 +1,5 @@
 "use client"
-import ProductCountdown2 from "../Productcountdown/page"
+import ProductCountdown2 from "../Productcountdown2/page"
 
 function Product(): JSX.Element {
   return (

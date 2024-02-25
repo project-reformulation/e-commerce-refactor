@@ -76,7 +76,20 @@ const User = sequelize.define('user', {
   }, {
     timestamps: false
   });
-  
+  const Email = sequelize.define('Email', {
+    to: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    subject: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    text: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+    },
+});
   
   const Whislist = sequelize.define('whislist', {
     idwhislist: {
