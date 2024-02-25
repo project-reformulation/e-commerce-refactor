@@ -6,6 +6,7 @@ import { CiStar } from "react-icons/ci";
 import { FiHeart } from "react-icons/fi";
 // import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Link from "next/link";
 // import { useParams, useNavigate } from 'react-router-dom';
 import ProductCountdown from "../Productcountdown/page";
 import React, { useEffect, useState } from "react";
@@ -140,8 +141,7 @@ function Sales(): JSX.Element {
                 <div className="left-[87px] top-[217px] absolute text-white text-base font-medium font-['Poppins'] leading-normal" onClick={() => {
                   addToCart(item.idproduct);
                 }}>
-                  Add To Cart
-                </div>
+<Link href='/components/cart'>Add To Cart</Link>                </div>
                 <div className="left-[224px] top-[12px] absolute flex-col justify-start items-start gap-2 inline-flex">
                   <div className="w-[34px] h-[34px] relative">
                     <div className="w-[34px] h-[34px]  bg-white rounded-full flex justify-center items-center" onClick={() => {

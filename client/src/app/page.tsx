@@ -1,6 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 
+<<<<<<< HEAD
+
+// import Image from "next/image";
+
+export default function Home() {
+  return (
+   <div>HELLO HOME </div>
+  )
+=======
 export default function Home () {
   return (
     <main>
@@ -12,3 +21,4 @@ export default function Home () {
     </main>
   );
 }
+>>>>>>> 6f3ca8097eaf6726dc32a478d8a1a574a32f7351

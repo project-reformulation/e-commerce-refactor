@@ -4,6 +4,7 @@ import { IoMdHeartEmpty } from "react-icons/io";
 import { FaEye } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { CiStar } from "react-icons/ci";
+import Link from "next/link";
 import axios from "axios";
 
 interface Product {
@@ -72,7 +73,7 @@ function Explore(): JSX.Element {
                   </div>
                   <div className="w-[270px] h-[41px] left-0 top-[209px] absolute bg-black rounded-bl rounded-br"></div>
                   <div className="left-[87px] top-[217px] absolute text-white text-base font-medium font-['Poppins'] leading-normal">
-                    Add To Cart
+                  <Link href='/components/cart'>Add To Cart</Link>
                   </div>
                   <div className="left-[224px] top-[12px] absolute flex-col justify-start items-start gap-2 inline-flex">
                     <div className="w-[34px] h-[34px] relative">

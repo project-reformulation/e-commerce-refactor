@@ -3,6 +3,7 @@ import { IoMdHeartEmpty } from "react-icons/io";
 import { FaEye } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { CiStar } from "react-icons/ci";
+import Link from "next/link";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
@@ -64,7 +65,7 @@ function Best_Slling(): JSX.Element {
                     <div className="text-neutral-50 text-xs font-normal font-['Poppins'] leading-[18px]">-{e.promop}%</div>
                   </div>
                   <div className="w-[270px] h-[41px] left-0 top-[209px] absolute bg-black rounded-bl rounded-br"></div>
-                  <div className="left-[87px] top-[217px] absolute text-white text-base font-medium font-['Poppins'] leading-normal">Add To Cart</div>
+                  <div className="left-[87px] top-[217px] absolute text-white text-base font-medium font-['Poppins'] leading-normal"><Link href='/components/cart'>Add To Cart</Link></div>
                   <div className="left-[224px] top-[12px] absolute flex-col justify-start items-start gap-2 inline-flex">
                     <div className="w-[34px] h-[34px] relative">
                       <div className="w-[34px] h-[34px] bg-white rounded-full flex justify-center items-center">
