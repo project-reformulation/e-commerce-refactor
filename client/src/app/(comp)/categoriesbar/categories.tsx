@@ -5,9 +5,9 @@ import { BsSmartwatch } from "react-icons/bs";
 import { FaCamera } from "react-icons/fa";
 import { FaHeadphones } from "react-icons/fa";
 import { SiYoutubegaming } from "react-icons/si";
-import { IconContext } from "react-icons";
+import { IconContext} from "react-icons";
 
-const Categories: React.FC = () => {
+const Categories: React.FC =()=>{
   return (
     <div style={{ display: "flex", justifyContent: "center", marginTop: "5%" }}>
       <div className="flex-col justify-start items-start gap-[60px] inline-flex">
